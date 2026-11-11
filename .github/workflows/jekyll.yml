@@ -34,11 +34,13 @@ jobs:
           JEKYLL_ENV: production
       - name: Deploy to the gh-pages branch
         run: |
+          cp -r _site /tmp/ljt-homepage
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git switch --orphan gh-pages
           git rm -rf --quiet .
-          cp -r _site/. .
+          git clean -fdx
+          cp -r /tmp/ljt-homepage/. .
           git add -A
           git commit -m "Deploy personal homepage"
           git push -f origin gh-pages
